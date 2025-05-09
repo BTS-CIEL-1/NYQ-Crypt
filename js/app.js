@@ -1,305 +1,322 @@
-import React, { useState } from 'react';
-import { 
-  SafeAreaView, 
-  StyleSheet, 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  StatusBar, 
-  ScrollView,
-  Share,
-  useColorScheme,
-  ToastAndroid,
-  Platform,
-  Alert
-} from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Icon from 'react-native-vector-icons/Ionicons';
+// app.js - Script principal pour NYQ Crypt
+document.addEventListener('DOMContentLoaded', function() {
+    // Importation du module de cryptage
+    // Comme l'import ES6 peut ne pas fonctionner directement dans un navigateur sans bundler,
+    // nous allons supposer que Y_Q_Crypto est disponible globalement via script.js
 
-// Importation du module de cryptage
-import NYQCrypto from './crypto';
+    // Éléments du DOM
+    const keyInput = document.getElementById('keyInput');
+    const fileInput = document.getElementById('fileInput');
+    const fileName = document.getElementById('fileName');
+    const textInput = document.getElementById('textInput');
+    const encryptBtn = document.getElementById('encryptBtn');
+    const decryptBtn = document.getElementById('decryptBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const result = document.getElementById('result');
+    const resultContent = document.getElementById('resultContent');
+    const keyStrengthBar = document.getElementById('keyStrengthBar');
+    const keyStrengthText = document.getElementById('keyStrengthText');
+    const binaryModeCheckbox = document.getElementById('binaryMode');
 
-// Couleurs de l'application
-const Colors = {
-  primary: '#3A539B',    // Bleu NYQ
-  success: '#27AE60',    // Vert
-  info: '#2980B9',       // Bleu
-  danger: '#E74C3C',     // Rouge
-  dark: '#34495E',       // Gris foncé
-  light: '#F7F9FC',      // Fond clair
-  white: '#FFFFFF',
-  darkBg: '#1A2530',     // Fond sombre
-  darkInput: '#2C3E50',  // Entrée sombre
-  grey: '#95A5A6',       // Gris
-};
+    // Variables pour stocker le contenu crypté/décrypté
+    let processedContent = '';
+    let originalFileName = '';
+    let isBinaryFile = false;
+    let fileContent = null;
 
-// Écran principal de cryptage
-function CryptoScreen() {
-  const [key, setKey] = useState('');
-  const [text, setText] = useState('');
-  const [result, setResult] = useState('');
-  const [showResult, setShowResult] = useState(false);
-  const colorScheme = useColorScheme();
-  
-  const isDarkMode = colorScheme === 'dark';
-  
-  // Fonction pour afficher un toast
-  const showToast = (message) => {
-    if (Platform.OS === 'android') {
-      ToastAndroid.show(message, ToastAndroid.SHORT);
-    } else {
-      Alert.alert('NYQ-Crypt', message);
-    }
-  };
-  
-  // Fonction de cryptage
-  const encrypt = () => {
-    if (!key.trim()) {
-      showToast('Veuillez entrer une clé de cryptage');
-      return;
-    }
-    
-    if (!text.trim()) {
-      showToast('Veuillez entrer un texte à crypter');
-      return;
-    }
-    
-    try {
-      const crypto = new NYQCrypto(key);
-      const encrypted = crypto.encrypt(text);
-      setResult(encrypted);
-      setShowResult(true);
-      showToast('Cryptage réussi');
-    } catch (error) {
-      showToast('Erreur de cryptage: ' + error.message);
-    }
-  };
-  
-  // Fonction de décryptage
-  const decrypt = () => {
-    if (!key.trim()) {
-      showToast('Veuillez entrer une clé de cryptage');
-      return;
-    }
-    
-    if (!text.trim()) {
-      showToast('Veuillez entrer un texte à décrypter');
-      return;
-    }
-    
-    try {
-      const crypto = new NYQCrypto(key);
-      const decrypted = crypto.decrypt(text);
-      setResult(decrypted);
-      setShowResult(true);
-      showToast('Décryptage réussi');
-    } catch (error) {
-      showToast('Erreur de décryptage: ' + error.message);
-    }
-  };
-  
-  // Fonction de partage
-  const shareResult = async () => {
-    if (!result) {
-      showToast('Aucun résultat à partager');
-      return;
-    }
-    
-    try {
-      await Share.share({
-        message: result,
-        title: 'Texte crypté via NYQ-Crypt'
-      });
-    } catch (error) {
-      showToast('Erreur lors du partage');
-    }
-  };
-  
-  return (
-    <SafeAreaView style={[
-      styles.container, 
-      isDarkMode ? { backgroundColor: Colors.darkBg } : { backgroundColor: Colors.light }
-    ]}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.header}>
-          <View style={styles.logoContainer}>
-            <Text style={styles.logoText}>N</Text>
-          </View>
-          <Text style={styles.headerTitle}>NYQ-Crypt</Text>
-        </View>
+    // Fonction pour évaluer la force de la clé
+    function evaluateKeyStrength(key) {
+        if (!key) {
+            keyStrengthBar.className = 'key-strength-bar';
+            keyStrengthText.textContent = 'Force de la clé';
+            return;
+        }
         
-        <View style={styles.content}>
-          <TextInput
-            style={[
-              styles.input,
-              isDarkMode ? { backgroundColor: Colors.darkInput, color: Colors.white } : null
-            ]}
-            placeholder="Clé de cryptage"
-            placeholderTextColor={Colors.grey}
-            value={key}
-            onChangeText={setKey}
-            secureTextEntry
-          />
-          
-          <TextInput
-            style={[
-              styles.textArea,
-              isDarkMode ? { backgroundColor: Colors.darkInput, color: Colors.white } : null
-            ]}
-            placeholder="Texte à crypter/décrypter"
-            placeholderTextColor={Colors.grey}
-            value={text}
-            onChangeText={setText}
-            multiline
-            numberOfLines={4}
-          />
-          
-          <View style={styles.buttonRow}>
-            <TouchableOpacity style={[styles.button, { backgroundColor: Colors.success }]} onPress={encrypt}>
-              <Text style={styles.buttonText}>CRYPTER</Text>
-            </TouchableOpacity>
+        // Critères simples pour évaluer la force
+        const length = key.length;
+        const hasUpperCase = /[A-Z]/.test(key);
+        const hasLowerCase = /[a-z]/.test(key);
+        const hasNumbers = /[0-9]/.test(key);
+        const hasSpecialChars = /[^A-Za-z0-9]/.test(key);
+        
+        const score = (length >= 8 ? 1 : 0) + 
+                      (length >= 12 ? 1 : 0) + 
+                      (hasUpperCase ? 1 : 0) + 
+                      (hasLowerCase ? 1 : 0) + 
+                      (hasNumbers ? 1 : 0) + 
+                      (hasSpecialChars ? 1 : 0);
+        
+        if (score <= 2) {
+            keyStrengthBar.className = 'key-strength-bar weak';
+            keyStrengthText.textContent = 'Faible';
+            keyStrengthText.style.color = '#e74c3c';
+        } else if (score <= 4) {
+            keyStrengthBar.className = 'key-strength-bar medium';
+            keyStrengthText.textContent = 'Moyenne';
+            keyStrengthText.style.color = '#f39c12';
+        } else {
+            keyStrengthBar.className = 'key-strength-bar strong';
+            keyStrengthText.textContent = 'Forte';
+            keyStrengthText.style.color = '#2ecc71';
+        }
+    }
+    
+    // Événement pour évaluer la force de la clé lors de la saisie
+    keyInput.addEventListener('input', function() {
+        evaluateKeyStrength(this.value);
+    });
+
+fileInput.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+
+    if (file) {
+        originalFileName = file.name;
+        fileName.textContent = file.name;
+        isBinaryFile = binaryModeCheckbox.checked;
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            fileContent = e.target.result;
+
+            if (!isBinaryFile) {
+                textInput.value = e.target.result;
+            } else {
+                textInput.value = '';
+                textInput.readOnly = true;
+            }
+        };
+
+        if (isBinaryFile) {
+            reader.readAsArrayBuffer(file);
+        } else {
+            reader.readAsText(file);
+        }
+    } else {
+        fileName.textContent = 'Aucun fichier sélectionné';
+    }
+});
+
+
+    // Fonction pour crypter des données binaires
+    function encryptBinaryData(data, crypto) {
+        // Convertir les données binaires en une chaîne de caractères pour le cryptage
+        const chunks = [];
+        const chunkSize = 1024; // Taille de fragment pour éviter les problèmes de mémoire
+        
+        // Ajouter les métadonnées de taille en début de fichier pour faciliter le décryptage
+        const sizeBuffer = new Uint32Array([data.length]);
+        const header = new Uint8Array(sizeBuffer.buffer);
+        
+        // Créer un tableau qui contient l'en-tête et les données
+        const combinedData = new Uint8Array(header.length + data.length);
+        combinedData.set(header);
+        combinedData.set(data, header.length);
+        
+        // Crypter par morceaux
+        for (let i = 0; i < combinedData.length; i += chunkSize) {
+            const chunk = combinedData.slice(i, Math.min(i + chunkSize, combinedData.length));
+            const chunkStr = Array.from(chunk).map(byte => String.fromCharCode(byte)).join('');
+            chunks.push(crypto.encrypt(chunkStr));
+        }
+        
+        // Retourner tous les fragments encodés, séparés par un délimiteur spécial
+        return chunks.join('|NYQ_DELIMITER|');
+    }
+    
+    // Fonction pour décrypter des données binaires
+    function decryptBinaryData(data, crypto) {
+        try {
+            // Convertir les données en chaîne pour le traitement
+            const dataStr = new TextDecoder().decode(data);
             
-            <TouchableOpacity style={[styles.button, { backgroundColor: Colors.info }]} onPress={decrypt}>
-              <Text style={styles.buttonText}>DÉCRYPTER</Text>
-            </TouchableOpacity>
-          </View>
-          
-          {showResult && (
-            <View style={[
-              styles.resultContainer,
-              isDarkMode ? { backgroundColor: Colors.darkInput } : { backgroundColor: Colors.white }
-            ]}>
-              <Text style={[
-                styles.resultTitle,
-                isDarkMode ? { color: Colors.white } : { color: Colors.dark }
-              ]}>Résultat:</Text>
-              <Text style={[
-                styles.resultText,
-                isDarkMode ? { color: Colors.light } : { color: Colors.dark }
-              ]}>{result}</Text>
-              
-              <TouchableOpacity 
-                style={[
-                  styles.shareButton,
-                  isDarkMode ? { backgroundColor: Colors.darkBg } : { backgroundColor: Colors.light } 
-                ]} 
-                onPress={shareResult}
-              >
-                <Text style={isDarkMode ? { color: Colors.white } : { color: Colors.dark }}>
-                  Partager
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-// Écran d'historique
-function HistoryScreen() {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  
-  return (
-    <SafeAreaView style={[
-      styles.container, 
-      isDarkMode ? { backgroundColor: Colors.darkBg } : { backgroundColor: Colors.light }
-    ]}>
-      <Text style={[
-        styles.centeredText,
-        isDarkMode ? { color: Colors.white } : { color: Colors.dark }
-      ]}>
-        Historique de vos cryptages
-      </Text>
-    </SafeAreaView>
-  );
-}
-
-// Écran de paramètres
-function SettingsScreen() {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  
-  return (
-    <SafeAreaView style={[
-      styles.container, 
-      isDarkMode ? { backgroundColor: Colors.darkBg } : { backgroundColor: Colors.light }
-    ]}>
-      <Text style={[
-        styles.centeredText,
-        isDarkMode ? { color: Colors.white } : { color: Colors.dark }
-      ]}>
-        Paramètres
-      </Text>
-    </SafeAreaView>
-  );
-}
-
-// Configuration du navigateur d'onglets
-const Tab = createBottomTabNavigator();
-
-function App() {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  
-  return (
-    <NavigationContainer>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={Colors.primary}
-      />
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            
-            if (route.name === 'Crypter') {
-              iconName = focused ? 'lock-closed' : 'lock-closed-outline';
-            } else if (route.name === 'Historique') {
-              iconName = focused ? 'time' : 'time-outline';
-            } else if (route.name === 'Paramètres') {
-              iconName = focused ? 'settings' : 'settings-outline';
+            if (!dataStr.includes('|NYQ_DELIMITER|')) {
+                throw new Error('Format de fichier crypté non reconnu');
             }
             
-            return <Icon name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor: Colors.primary,
-          tabBarInactiveTintColor: Colors.grey,
-          tabBarStyle: {
-            backgroundColor: isDarkMode ? Colors.darkInput : Colors.white,
-          },
-          headerShown: false,
-        })}
-      >
-        <Tab.Screen name="Crypter" component={CryptoScreen} />
-        <Tab.Screen name="Historique" component={HistoryScreen} />
-        <Tab.Screen name="Paramètres" component={SettingsScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
-  );
-}
+            // Décrypter chaque fragment
+            const encryptedChunks = dataStr.split('|NYQ_DELIMITER|');
+            let decryptedData = [];
+            
+            for (const chunk of encryptedChunks) {
+                if (!chunk) continue; // Ignorer les fragments vides
+                
+                const decryptedStr = crypto.decrypt(chunk);
+                const decryptedBytes = Array.from(decryptedStr).map(char => char.charCodeAt(0));
+                decryptedData.push(...decryptedBytes);
+            }
+            
+            // Extraire l'en-tête pour obtenir la taille originale
+            const sizeBytes = decryptedData.slice(0, 4);
+            const dataSize = new Uint32Array(new Uint8Array(sizeBytes).buffer)[0];
+            
+            // Extraire les données réelles (en ignorant l'en-tête)
+            const actualData = decryptedData.slice(4, 4 + dataSize);
+            
+            return new Uint8Array(actualData);
+        } catch (error) {
+            console.error('Erreur lors du décryptage binaire:', error);
+            throw error;
+        }
+    }
+    
+    // Fonction pour vérifier si la clé est valide
+    function validateKey() {
+        if (!keyInput.value.trim()) {
+            alert('Veuillez entrer une clé de cryptage.');
+            return false;
+        }
+        return true;
+    }
 
-// Styles de l'application
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
-    padding: 16,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: 16,
-  },
-  logoContainer: {
-    width: 32,
-    height: 32,
-    borderRadius: 16
-  }
-})
+    // Fonction pour vérifier si le texte est valide
+    function validateText() {
+        if (!textInput.value.trim() && !isBinaryFile) {
+            alert('Veuillez entrer un texte à crypter/décrypter ou sélectionner un fichier.');
+            return false;
+        }
+        return true;
+    }
+
+    // Événement de cryptage
+    encryptBtn.addEventListener('click', function() {
+        if (!validateKey()) return;
+        
+        try {
+            // Créer une nouvelle instance de Y_Q_Crypto avec la clé fournie
+            const crypto = new Y_Q_Crypto(keyInput.value);
+            
+            if (isBinaryFile && fileContent) {
+                // Cryptage de fichier binaire
+                const encryptedData = encryptBinaryData(new Uint8Array(fileContent), crypto);
+                processedContent = encryptedData;
+                
+                // Afficher le résultat
+                resultContent.textContent = "[Fichier binaire crypté - Cliquez sur Télécharger pour enregistrer]";
+                result.style.display = 'block';
+            } else {
+                // Cryptage de texte
+                if (!validateText()) return;
+                
+                processedContent = crypto.encrypt(textInput.value);
+                
+                // Afficher le résultat
+                resultContent.textContent = processedContent;
+                result.style.display = 'block';
+            }
+        } catch (error) {
+            alert('Erreur lors du cryptage : ' + error.message);
+        }
+    });
+
+    // Événement de décryptage
+    decryptBtn.addEventListener('click', function() {
+        if (!validateKey()) return;
+        
+        try {
+            // Créer une nouvelle instance de Y_Q_Crypto avec la clé fournie
+            const crypto = new Y_Q_Crypto(keyInput.value);
+            
+            if (isBinaryFile && fileContent) {
+                // Décryptage de fichier binaire
+                try {
+                    const decryptedData = decryptBinaryData(new Uint8Array(fileContent), crypto);
+                    processedContent = decryptedData;
+                    
+                    // Afficher le résultat
+                    resultContent.textContent = "[Fichier binaire décrypté - Cliquez sur Télécharger pour enregistrer]";
+                    result.style.display = 'block';
+                } catch (e) {
+                    alert('Erreur lors du décryptage du fichier binaire. Clé incorrecte ou fichier corrompu.');
+                }
+            } else {
+                // Décryptage de texte
+                if (!validateText()) return;
+                
+                // Vérifier si le texte est en format Base64 (probable texte crypté)
+                const base64Regex = /^[A-Za-z0-9+/=]+$/;
+                if (!base64Regex.test(textInput.value.trim())) {
+                    alert('Le texte ne semble pas être au format crypté. Veuillez vérifier.');
+                    return;
+                }
+                
+                processedContent = crypto.decrypt(textInput.value);
+                
+                // Afficher le résultat
+                resultContent.textContent = processedContent;
+                result.style.display = 'block';
+            }
+        } catch (error) {
+            alert('Erreur lors du décryptage : Clé incorrecte ou format invalide.');
+        }
+    });
+
+    // Événement d'effacement
+    clearBtn.addEventListener('click', function() {
+        keyInput.value = '';
+        textInput.value = '';
+        fileName.textContent = 'Aucun fichier sélectionné';
+        fileInput.value = '';
+        result.style.display = 'none';
+        processedContent = '';
+        fileContent = null;
+        originalFileName = '';
+        isBinaryFile = false;
+        textInput.readOnly = false;
+        evaluateKeyStrength('');
+    });
+
+    // Événement de téléchargement
+    downloadBtn.addEventListener('click', function() {
+        if (!processedContent) {
+            alert('Aucun contenu à télécharger. Veuillez d\'abord crypter ou décrypter un texte.');
+            return;
+        }
+        
+        let blob;
+        let filename;
+        
+        if (typeof processedContent === 'string') {
+            // Contenu textuel
+            blob = new Blob([processedContent], { type: 'text/plain' });
+            
+            if (originalFileName) {
+                const extension = originalFileName.substring(originalFileName.lastIndexOf('.'));
+                const baseName = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
+                
+                if (resultContent.textContent.startsWith('[Fichier binaire')) {
+                    // C'était un fichier binaire
+                    filename = baseName + '_NYQ' + extension;
+                } else {
+                    // C'était un fichier texte
+                    filename = baseName + '_NYQ.txt';
+                }
+            } else {
+                filename = 'NYQ_Crypt_file.txt';
+            }
+        } else {
+            // Contenu binaire (ArrayBuffer ou Uint8Array)
+            blob = new Blob([processedContent], { type: 'application/octet-stream' });
+            
+            if (originalFileName) {
+                const extension = originalFileName.substring(originalFileName.lastIndexOf('.'));
+                const baseName = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
+                filename = baseName + '_NYQ' + extension;
+            } else {
+                filename = 'NYQ_Crypt_file.bin';
+            }
+        }
+        
+        const url = URL.createObjectURL(blob);
+        
+        // Créer un lien de téléchargement et cliquer dessus
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+});

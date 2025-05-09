@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYQ Crypt - Solution de Cryptage Sécurisée</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/vnd.icon" href="/img/logo-cryptage.png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">Y&Q Crypt</div>
+            <p>Solution de cryptage simple et sécurisée</p>
+        </header>
+
+        <div class="content">
+            <div class="form-group">
+                <label for="keyInput">Clé de cryptage:</label>
+                <input type="text" id="keyInput" class="key-input" placeholder="Entrez votre clé secrète">
+            </div>
+
+            <div class="form-group">
+                <label for="fileInput" class="file-label">Choisir un fichier</label>
+                <input type="file" id="fileInput" class="file-input">
+                <span id="fileName" class="file-name">Aucun fichier sélectionné</span>
+            </div>
+
+            <div class="form-group">
+                <label for="textInput">Texte à crypter/décrypter:</label>
+                <textarea id="textInput" rows="6" placeholder="Entrez votre texte ici ou chargez un fichier"></textarea>
+            </div>
+
+            <div class="buttons">
+                <button id="encryptBtn" class="encrypt-btn">Crypter</button>
+                <button id="decryptBtn" class="decrypt-btn">Décrypter</button>
+                <button id="clearBtn" class="clear-btn">Effacer</button>
+                <button id="downloadBtn">Télécharger</button>
+            </div>
+
+            <div id="result" class="result" style="display: none;">
+                <h3>Résultat:</h3>
+                <div id="resultContent"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>NYQ Crypt © 2025 - all right reserved</p>
+        </div>
+    </div>
+    <script src="js/script.js">defer </script>
+    <script src="js/app.js">defer </script>
+</body>
+</html>

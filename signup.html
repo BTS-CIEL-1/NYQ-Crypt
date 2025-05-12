@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/script.js" defer></script>
+    <title>SpaceX</title>
+    <link rel="icon" type="image/png" href="/img/fusee.png">
+</head>
+
+<body>
+    <div id="overlay"></div>
+
+     <!-- Menu Pour Mobile -->
+    <div id="mobile-menu" class="mobile-main-menu">
+      <ul>
+        <li><a href="https://keepass.info/download.html"target="_blank">Keepass</a></li>
+        <li><a href="#">Doc</a></li>
+
+        <li class="mobile-only"><a href="falcon9.html">Falcon 9</a></li>
+        <li class="mobile-only">
+          <a href="falcon-heavy.html">Falcon Heavy</a>
+        </li>
+        <li class="mobile-only"><a href="dragon.html">Dragon</a></li>
+      </ul>
+    </div>
+
+ <!-- Menu Pour Mobile -->
+ <div id="mobile-menu" class="mobile-main-menu">
+  <ul>
+    <li><a href="https://keepass.info/download.html"target="_blank">Keepass</a></li>
+    <li><a href="#">Doc</a></li>
+    <li class="mobile-only"><a href="index.html">Acceuil</a></li>
+    <li class="mobile-only"><a href="signup.html">Inscription</a></li>
+    <li class="mobile-only"><a href="signin.html">Connexion</a></li>
+  </ul>
+</div>
+
+ <!-- Header et Menu-->
+<header class="main-header">
+  <div class="logo">
+    <a href="index.html">
+      <img src="img/logo.png" alt="SpaceX" />
+    </a>
+  </div>
+  <nav class="desktop-main-menu">
+    <ul>
+      <li><a href="index.html">Acceuil</a></li>
+      <li><a href="signin.html">Connexion</a></li>
+      <li><a href="signup.html">Inscription</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- Hamburger Menu -->
+<button id="menu-btn" class="hamburger" type="button">
+  <span class="hamburger-top"></span>
+  <span class="hamburger-middle"></span>
+  <span class="hamburger-bottom"></span>
+</button>
+
+    <!-- Section A -->
+    <section class="section-a">
+      <div class="section-inner">
+        <!-- <h2 class="text-center">sign up&nbsp;&nbsp;</h2> -->
+        <div class="contact-clean">
+            <form method="post" action="/signup">
+                <h2 class="text-center">sign up&nbsp;&nbsp;</h2>
+                <div class="form-group"><input class="form-control" id="lastName" type="text" name="lastName" placeholder="Last Name"></div>
+                <div class="form-group"><input class="form-control" id="firstName" type="text" name="firstName" placeholder="First name"></div>
+                <div class="form-group"><input class="form-control" id="email" type="email" name="email" placeholder="Email"></div>
+                <div class="form-group"><input class="form-control" id="password" type="password" name="password" placeholder="password">
+                  <small class="text-danger invisible">Veuillez enter un mot de passe de longueur minimum 8 caractères</small>
+                </div>
+                <div class="form-group"><textarea class="form-control" id="message" name="message" placeholder="Message" rows="14"></textarea></div>
+                <div class="form-group">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="formCheck-1">
+                        <label class="form-check-label" for="formCheck-1">I am of age</label>
+                    </div>
+                    <button class="btn btn-primary" type="submit" onClick=verifierFormulaire()>send </button>
+                  </div>
+            </form>
+        </div>
+      </div>
+      
+    </section>
+
+    
+
+    <footer>
+      <ul>
+        <li>SpaceX &copy; 2022</li>
+        <li><a href="#">Twitter</a></li>
+        <li><a href="#">Github</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </footer>
+</body>
+
+</html>

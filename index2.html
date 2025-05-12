@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYQ Crypt - Solution de Cryptage Sécurisée</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/vnd.icon" href="img/logo-cryptage.png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">NYQ Crypt</div>
+            <p>Solution de cryptage simple et sécurisée</p>
+        </header>
+
+        <div class="content">
+            <div class="form-group">
+                <label for="keyInput">Clé de cryptage:</label>
+                <input type="text" id="keyInput" class="key-input" placeholder="Entrez votre clé secrète">
+                <div class="key-strength">
+                    <div id="keyStrengthBar" class="key-strength-bar"></div>
+                    <span id="keyStrengthText" class="key-strength-text">Force de la clé</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="fileInput" class="file-label">Choisir un fichier</label>
+                <input type="file" id="fileInput" class="file-input">
+                <span id="fileName" class="file-name">Aucun fichier sélectionné</span>
+            </div>
+
+            <div class="form-group">
+                <label for="textInput">Texte à crypter/décrypter:</label>
+                <textarea id="textInput" rows="6" placeholder="Entrez votre texte ici ou chargez un fichier"></textarea>
+            </div>
+
+            <div class="options">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="binaryMode">
+                    <span class="checkmark"></span>
+                    Mode binaire (pour fichiers non-textuels)
+                </label>
+            </div>
+
+            <div class="buttons">
+                <button id="encryptBtn" class="encrypt-btn">Crypter</button>
+                <button id="decryptBtn" class="decrypt-btn">Décrypter</button>
+                <button id="clearBtn" class="clear-btn">Effacer</button>
+                <button id="downloadBtn">Télécharger</button>
+            </div>
+
+            <div id="result" class="result" style="display: none;">
+                <h3>Résultat:</h3>
+                <div id="resultContent"></div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h3>Comment ça fonctionne</h3>
+            <p>NYQ Crypt utilise un algorithme de cryptage symétrique personnalisé pour sécuriser vos données.</p>
+            <ol>
+                <li>Entrez une clé de cryptage robuste (elle sera nécessaire pour décrypter)</li>
+                <li>Saisissez du texte ou chargez un fichier</li>
+                <li>Cliquez sur "Crypter" pour sécuriser vos données</li>
+                <li>Pour décrypter, fournissez la même clé et le texte crypté</li>
+            </ol>
+            <p class="warning">Attention : Si vous perdez votre clé, vos données ne pourront pas être récupérées!</p>
+        </div>
+
+        <div class="footer">
+            <p>NYQ Crypt © 2025 - Tous droits réservés</p>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+    <script src="js/app.js"></script> 
+</body>
+</html>

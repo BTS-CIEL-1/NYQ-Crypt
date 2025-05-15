@@ -1,5 +1,5 @@
 {
-  "name": "spacex",
+  "name": "nyq-crypt",
   "version": "1.0.0",
   "description": "HTML/CSS/JS SpaceX website clone project from the [YouTube tutorial](https://www.youtube.com/watch?v=wryPX7KSwSc). It is not the entire website, but the homepage, a few inner pages with the CSS animations, mobile menu and the JavaScript countdown effect.",
   "main": "index.js",
@@ -7,8 +7,8 @@
     "devStart": "nodemon server-Todo-C.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "QuentinVarma",
+  "license": "UNLICENSED",
   "devDependencies": {
     "nodemon": "^3.1.9"
   },
@@ -16,8 +16,12 @@
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
     "dotenv": "^16.3.1",
-    "express": "^4.18.2",
+    "express": "^4.21.2",
     "mongoose": "^7.6.3",
     "nodemailer": "^6.10.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "module-4-programmation-projet-cryptage-QuentinVarma"
   }
 }

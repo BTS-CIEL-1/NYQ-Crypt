@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/contact.css" />
+    <script src="js/script.js" defer></script>
+    <script src="js/contact.js" defer></script>
+    <title>Contact - NYQ-Crypt</title>
+    <link rel="icon" type="image/png" href="/img/nyq-crypt-logo.PNG">
+  </head>
+  <body>
+    <div id="overlay"></div>
+
+     <!-- Menu Pour Mobile -->
+    <div id="mobile-menu" class="mobile-main-menu">
+      <ul>
+        <li><a href="https://keepass.info/download.html"target="_blank">Keepass</a></li>
+        <li><a href="#">Doc</a></li>
+        <li class="mobile-only"><a href="index.html">Accueil</a></li>
+        <li class="mobile-only"><a href="signup.html">Inscription</a></li>
+        <li class="mobile-only"><a href="signin.html">Connexion</a></li>
+        <li class="mobile-only"><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+
+     <!-- Header et Menu-->
+    <header class="main-header">
+      <div class="logo">
+        <a href="index.html">
+          <img src="img/Nyk-Crypt.png" alt="NYQ-Crypt" />
+        </a>
+      </div>
+      <nav class="desktop-main-menu">
+        <ul>
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="signin.html">Connexion</a></li>
+          <li><a href="signup.html">Inscription</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Hamburger Menu -->
+    <button id="menu-btn" class="hamburger" type="button">
+      <span class="hamburger-top"></span>
+      <span class="hamburger-middle"></span>
+      <span class="hamburger-bottom"></span>
+    </button>
+
+    <!-- Section A -->
+    <section class="section-a">
+      <div class="section-inner">
+        <h4>Contact</h4>
+        <h2>NYQ-Crypt</h2>
+      </div>
+    </section>
+
+    <!-- Section B - Support Informatique -->
+    <section class="section-b">
+      <div class="section-inner">
+        <h3>Support Informatique</h3>
+        <p>Besoin d'aide ou d'assistance technique ? Notre équipe d'experts est là pour vous accompagner à chaque étape.</p>
+        
+        <div class="contact-info">
+          <div class="contact-method">
+            <h4>Contactez Notre Support</h4>
+            <p>Notre équipe de spécialistes est disponible pour résoudre tous vos problèmes techniques rapidement et efficacement.</p>
+            <a href="mailto:support@nyq-crypt.com" class="email-link">support@nyq-crypt.com</a>
+            <p class="note">Temps de réponse moyen : moins de 24 heures. Pour les demandes urgentes, veuillez préciser "URGENT" dans l'objet de votre message.</p>
+          </div>
+
+          <div class="contact-form">
+            <h4>Envoyez-nous un Message</h4>
+            <form id="support-form">
+              <div class="form-group">
+                <label for="name">Votre Nom</label>
+                <input type="text" id="name" name="name" placeholder="Entrez votre nom" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Votre Email</label>
+                <input type="email" id="email" name="email" placeholder="Entrez votre adresse email" required>
+              </div>
+              <div class="form-group">
+                <label for="subject">Sujet</label>
+                <input type="text" id="subject" name="subject" placeholder="Sujet de votre message" required>
+              </div>
+              <div class="form-group">
+                <label for="message">Votre Message</label>
+                <textarea id="message" name="message" rows="5" placeholder="Décrivez votre problème ou votre question en détail..." required></textarea>
+              </div>
+              <div class="success-message" id="success-message">
+                Votre message a été envoyé avec succès ! Notre équipe vous contactera très prochainement.
+              </div>
+              <button type="submit" class="btn">
+                <div class="hover"></div>
+                <span>Envoyer</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div class="faq-section">
+          <h4>Questions Fréquentes</h4>
+          <div class="faq-item">
+            <h5>Comment protéger efficacement mes mots de passe avec NYQ-Crypt ?</h5>
+            <p>NYQ-Crypt utilise un chiffrement AES-256 de niveau militaire pour sécuriser vos informations. Pour une protection maximale, utilisez notre générateur de mots de passe et activez l'authentification à deux facteurs.</p>
+          </div>
+          <div class="faq-item">
+            <h5>Est-ce que NYQ-Crypt fonctionne sur tous mes appareils ?</h5>
+            <p>Absolument ! Notre application est compatible avec Windows, macOS, Linux, iOS et Android. Vos données sont synchronisées automatiquement sur tous vos appareils connectés.</p>
+          </div>
+          <div class="faq-item">
+            <h5>Que faire en cas d'oubli de mon mot de passe principal ?</h5>
+            <p>Pour garantir une sécurité maximale, nous ne stockons pas votre mot de passe principal. Pensez à configurer des questions de récupération et à conserver une copie de secours de votre base de données chiffrée.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <footer>
+      <ul>
+        <li>NYQ-Crypt &copy; 2025</li>
+        <li><a href="#">Twitter</a></li>
+        <li><a href="#">Github</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </footer>
+  </body>
+</html>

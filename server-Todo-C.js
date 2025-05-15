@@ -131,7 +131,7 @@ try {
           from: 'quentin.varma@lycee-jeanrostand.fr',
           to: email,
           subject: 'Confirmation d\'inscription',
-          text: `Bonjour ${firstName},\n\n Vous êtes bien inscrit !\n\n Bisous,\n L'équipe SpaceX`
+          text: `Bonjour ${firstName},\n\n Vous êtes bien inscrit !\n\n Voici votre clé privée: 78@gh4808C!aQ,\n L'équipe NYQ-Crypt`
       };
 
       transporter.sendMail(mailOptions, (error, info) => {

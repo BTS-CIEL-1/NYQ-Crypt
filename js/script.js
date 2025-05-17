@@ -201,3 +201,15 @@ async function verifierFormulaire2(event) {
   }
 }
 
+const passwordInput = document.getElementById('password');
+const showPasswordButton = document.getElementById('show-password');
+
+showPasswordButton.addEventListener('click', () => {
+  if (passwordInput.type === 'password') {
+    passwordInput.type = 'text';
+    showPasswordButton.innerHTML = '<i class="fas fa-eye-slash"></i>';
+  } else {
+    passwordInput.type = 'password';
+    showPasswordButton.innerHTML = '<i class="fas fa-eye"></i>';
+  }
+});

@@ -201,15 +201,16 @@ async function verifierFormulaire2(event) {
   }
 }
 
-const passwordInput = document.getElementById('password');
-const showPasswordButton = document.getElementById('show-password');
+document.addEventListener("DOMContentLoaded", function () {
+  const passwordInput = document.getElementById('password');
+  const togglePassword = document.getElementById('show-password');
 
-showPasswordButton.addEventListener('click', () => {
-  if (passwordInput.type === 'password') {
-    passwordInput.type = 'text';
-    showPasswordButton.innerHTML = '<i class="fas fa-eye-slash"></i>';
-  } else {
-    passwordInput.type = 'password';
-    showPasswordButton.innerHTML = '<i class="fas fa-eye"></i>';
-  }
+  togglePassword.addEventListener('click', function () {
+    // Toggle le type de l'input
+    const type = passwordInput.type === 'password' ? 'text' : 'password';
+    passwordInput.type = type;
+    // Change l'icône
+    this.classList.toggle('fa-eye');
+    this.classList.toggle('fa-eye-slash');
+  });
 });

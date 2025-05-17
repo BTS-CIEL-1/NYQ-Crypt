@@ -626,3 +626,26 @@ button:hover {
     padding: 20px;
   }
 }
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-container input {
+  padding-right: 40px; /* Ajoute de l'espace pour l'œil */
+}
+
+.password-container #show-password {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #000;        /* Noir */
+  font-size: 1.2em;   /* Optionnel : ajuste la taille */
+  z-index: 2;
+}
+.fa-solid, .fas {
+    font-weight: 900;
+    color: black;
+}

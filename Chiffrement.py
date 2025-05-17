@@ -1,19 +1,39 @@
+# chiffrement.py
+from flask import Flask, request, jsonify, render_template
 from cryptography.fernet import Fernet
 
-# Génération d'une clé symétrique
-def generate_key():
-    key = Fernet.generate_key()
-    return key
+app = Flask(__name__)
 
-# Chiffrement du texte
-def encrypt_text(text, key):
-    cipher_suite = Fernet(key)
-    encrypted_text = cipher_suite.encrypt(text.encode())
-    return encrypted_text
+# Génération d'une clé symétrique et création du cipher
+KEY = Fernet.generate_key()
+cipher_suite = Fernet(KEY)
+print("Clé de chiffrement :", KEY.decode())
 
-# Déchiffrement du texte
-def decrypt_text(encrypted_text, key):
-    cipher_suite = Fernet(key)
-    decrypted_text = cipher_suite.decrypt(encrypted_text).decode()
-    return decrypted_text
+@app.route('/')
+def index():
+    return render_template('index2.html')
+
+@app.route('/encrypt', methods=['POST'])
+def encrypt():
+    data = request.get_json()
+    text = data.get('text', '')
+    try:
+        encrypted = cipher_suite.encrypt(text.encode()).decode()
+        return jsonify(success=True, result=encrypted)
+    except Exception as e:
+        return jsonify(success=False, error=str(e))
+
+@app.route('/decrypt', methods=['POST'])
+def decrypt():
+    data = request.get_json()
+    text = data.get('text', '')
+    try:
+        decrypted = cipher_suite.decrypt(text.encode()).decode()
+        return jsonify(success=True, result=decrypted)
+    except Exception as e:
+        return jsonify(success=False, error=str(e))
+
+if __name__ == '__main__':
+    # Lance le serveur sur le port 5000 en mode debug.
+    app.run(debug=True, port=5000)
 

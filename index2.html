@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NYQ Crypt - Solution de Cryptage Sécurisée</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/support.css">
     <link rel="icon" type="image/png" href="/img/nyq-crypt-logo.PNG">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -28,7 +29,13 @@
             </div>
 
             <div class="form-group">
-                <label for="textInput">Texte à crypter/décrypter:</label>
+                <label for="keyInput">Clé de chiffrement :</label>
+                <textarea id="keyInput" rows="6" placeholder="Entrez votre clé ici"></textarea>
+            </div>
+
+
+            <div class="form-group">
+                <label for="textInput">Texte à Chiffrer/Déchiffrer:</label>
                 <textarea id="textInput" rows="6" placeholder="Entrez votre texte ici ou chargez un fichier"></textarea>
             </div>
 
@@ -41,8 +48,8 @@
             </div>
 
             <div class="buttons">
-                <button id="encryptBtn" class="encrypt-btn">Crypter</button>
-                <button id="decryptBtn" class="decrypt-btn">Décrypter</button>
+                <button id="encryptBtn" class="encrypt-btn">Chiffrer</button>
+                <button id="decryptBtn" class="decrypt-btn">Déchiffrer</button>
                 <button id="clearBtn" class="clear-btn">Effacer</button>
                 <button id="downloadBtn">Télécharger</button>
             </div>
@@ -68,37 +75,41 @@
         <!-- Section Support Améliorée -->
         <div class="support-section">
             <h3>Support Technique</h3>
-            <p>Notre équipe d'experts en cryptographie est à votre disposition pour vous accompagner dans l'utilisation de NYQ Crypt</p>
-            
+            <p>Notre équipe d'experts en cryptographie est à votre disposition pour vous accompagner dans l'utilisation
+                de NYQ Crypt</p>
+
             <div class="support-flex">
                 <div class="support-card">
                     <i class="fas fa-envelope support-card-icon"></i>
                     <h4>Assistance par Email</h4>
                     <div class="support-card-content">
-                        <p>Pour toute question technique ou problème d'utilisation, contactez-nous à l'adresse : <a href="mailto:support@nyq-crypt.com" class="email-support">support@nyq-crypt.com</a></p>
+                        <p>Pour toute question technique ou problème d'utilisation, contactez-nous à l'adresse : <a
+                                href="mailto:support@nyq-crypt.com" class="email-support">support@nyq-crypt.com</a></p>
                         <p>Temps de réponse moyen : sous 24h</p>
                     </div>
                 </div>
-                
+
                 <div class="support-card">
                     <i class="fas fa-comments support-card-icon"></i>
                     <h4>Support Immédiat</h4>
                     <div class="support-card-content">
-                        <p>Besoin d'aide rapide ? Utilisez notre formulaire de contact pour recevoir une assistance prioritaire.</p>
+                        <p>Besoin d'aide rapide ? Utilisez notre formulaire de contact pour recevoir une assistance
+                            prioritaire.</p>
                         <button id="openContactModal" class="support-btn">Contacter le support</button>
                     </div>
                 </div>
-                
+
                 <div class="support-card">
                     <i class="fas fa-book support-card-icon"></i>
                     <h4>Documentation</h4>
                     <div class="support-card-content">
-                        <p>Consultez notre documentation complète pour apprendre à utiliser toutes les fonctionnalités de NYQ Crypt.</p>
+                        <p>Consultez notre documentation complète pour apprendre à utiliser toutes les fonctionnalités
+                            de NYQ Crypt.</p>
                         <a href="#" class="support-btn">Consulter le guide</a>
                     </div>
                 </div>
             </div>
-            
+
             <div class="support-quick-links">
                 <h4>Ressources Rapides</h4>
                 <div class="support-buttons">
@@ -130,7 +141,8 @@
                     </div>
                     <div class="form-group">
                         <label for="contactMessage">Message</label>
-                        <textarea id="contactMessage" placeholder="Détaillez votre problème ou votre question..." required></textarea>
+                        <textarea id="contactMessage" placeholder="Détaillez votre problème ou votre question..."
+                            required></textarea>
                     </div>
                     <div class="success-message" id="contactSuccessMessage">
                         Votre message a été envoyé avec succès ! Notre équipe vous contactera très prochainement.
@@ -148,4 +160,5 @@
     <script src="js/app.js"></script>
     <script src="js/support.js"></script>
 </body>
+
 </html>

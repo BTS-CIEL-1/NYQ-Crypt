@@ -1,4 +1,4 @@
-/* style.css - Styles pour NYQ Crypt */
+/* style.css - Styles optimisés pour NYQ Crypt */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -8,17 +8,22 @@
 
 body {
     background-image: url(/img/backnyq.jpg);
-    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
     color: #333;
     line-height: 1.6;
+    min-height: 100vh;
+    margin: 0;
 }
 
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 20px;
     background-image: url(/img/interNyq.jpg);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    background-size: cover;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
     min-height: 100vh;
     display: flex;
@@ -27,21 +32,22 @@ body {
 
 header {
     text-align: center;
-    padding: 20px 0;
-    margin-bottom: 30px;
-    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: bold;
-    color: #3498db;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    color: #5ce1e6;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
 }
 
 header p {
     color: #ffffff;
     font-style: italic;
+    margin-top: 5px;
 }
 
 .content {
@@ -62,16 +68,17 @@ label {
 input[type="text"], textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 4px;
     font-size: 1rem;
     transition: border-color 0.3s;
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
 input[type="text"]:focus, textarea:focus {
-    border-color: #3498db;
+    border-color: #5ce1e6;
     outline: none;
-    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+    box-shadow: 0 0 10px rgba(92, 225, 230, 0.4);
 }
 
 .file-input {
@@ -104,6 +111,7 @@ input[type="text"]:focus, textarea:focus {
     gap: 10px;
     margin-bottom: 20px;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 button {
@@ -112,13 +120,14 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-weight: 600;
-    transition: background-color 0.3s, transform 0.1s;
+    transition: all 0.3s ease;
     flex: 1;
     min-width: 120px;
 }
 
 button:hover {
     transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .encrypt-btn {
@@ -158,10 +167,10 @@ button:hover {
 }
 
 .result {
-    background-color: #f9f9f9;
+    background-color: rgba(249, 249, 249, 0.9);
     padding: 15px;
     border-radius: 4px;
-    border-left: 4px solid #3498db;
+    border-left: 4px solid #5ce1e6;
     margin-top: 20px;
 }
 
@@ -190,7 +199,7 @@ button:hover {
 .key-strength-bar {
     height: 5px;
     width: 70%;
-    background-color: #eee;
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 3px;
     margin-right: 10px;
     position: relative;
@@ -222,21 +231,22 @@ button:hover {
 
 .key-strength-text {
     font-size: 0.8rem;
-    color: #777;
+    color: rgba(255, 255, 255, 0.8);
 }
 
-/* Style pour la section d'information */
+/* Style de la section explicative */
 .info-section {
     margin-top: 30px;
     padding: 20px;
-    background-color: #f8f9fa;
+    background-color: rgba(0, 15, 30, 0.7);
     border-radius: 8px;
-    border-left: 4px solid #3498db;
+    border-left: 4px solid #5ce1e6;
+    color: #d9d9d9;
 }
 
 .info-section h3 {
     margin-bottom: 15px;
-    color: #3498db;
+    color: #5ce1e6;
 }
 
 .info-section ol {
@@ -268,6 +278,7 @@ button:hover {
     cursor: pointer;
     font-size: 0.9rem;
     user-select: none;
+    color: #ffffff;
 }
 
 .checkbox-container input {
@@ -284,16 +295,16 @@ button:hover {
     left: 0;
     height: 20px;
     width: 20px;
-    background-color: #eee;
+    background-color: rgba(255, 255, 255, 0.2);
     border-radius: 4px;
 }
 
 .checkbox-container:hover input ~ .checkmark {
-    background-color: #ccc;
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .checkbox-container input:checked ~ .checkmark {
-    background-color: #2196F3;
+    background-color: #5ce1e6;
 }
 
 .checkmark:after {
@@ -320,25 +331,59 @@ button:hover {
     text-align: center;
     margin-top: 30px;
     padding-top: 20px;
-    border-top: 1px solid #eee;
-    color: #888;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
     font-size: 0.9rem;
 }
 
 /* Responsive design */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        margin: 0;
+        border-radius: 0;
+        width: 100%;
+    }
+    
     .buttons {
         flex-direction: column;
     }
     
     button {
         width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .logo {
+        font-size: 1.8rem;
+    }
+    
+    .support-section {
+        padding: 20px;
+    }
+    
+    .support-flex {
+        flex-direction: column;
     }
 }
 
-/* Style spécifique pour la section support dans index2.html */
+@media (max-width: 480px) {
+    input[type="text"], textarea {
+        padding: 10px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    header {
+        padding: 10px 0;
+    }
+}
+
+/* Style spécifique pour la section support */
 .support-section {
-  background: linear-gradient(to bottom, #0e1218, #1a2639);
+  background: linear-gradient(to bottom, rgba(14, 18, 24, 0.9), rgba(26, 38, 57, 0.9));
   border-radius: 10px;
   margin: 30px 0;
   padding: 30px;
@@ -392,7 +437,7 @@ button:hover {
 
 .support-card {
   flex: 1;
-  min-width: 300px;
+  min-width: 280px;
   background: rgba(255, 255, 255, 0.07);
   border-radius: 8px;
   padding: 20px;
@@ -610,29 +655,65 @@ button:hover {
   text-align: center;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .support-flex {
-    flex-direction: column;
-  }
-  
-  .support-card {
-    width: 100%;
-    margin-bottom: 15px;
-  }
-  
-  .modal-content {
-    margin: 30px 15px;
-    padding: 20px;
-  }
+/* Système de documentation */
+.documentation {
+  background: rgba(0, 15, 30, 0.7);
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 30px;
 }
+
+.documentation h3 {
+  color: #5ce1e6;
+  border-bottom: 1px solid rgba(92, 225, 230, 0.2);
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.doc-content {
+  color: #d9d9d9;
+}
+
+/* Ressources liées */
+.related-resources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.resource-btn {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  padding: 8px 15px;
+  color: #d9d9d9;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.resource-btn:hover {
+  background: rgba(92, 225, 230, 0.1);
+  border-color: #5ce1e6;
+  color: #5ce1e6;
+}
+
+/* Modification pour support des zones textuelles */
+textarea {
+  min-height: 150px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.5;
+}
+
+/* Conteneur mot de passe */
 .password-container {
   position: relative;
   width: 100%;
 }
 
 .password-container input {
-  padding-right: 40px; /* Ajoute de l'espace pour l'œil */
+  padding-right: 40px;
 }
 
 .password-container #show-password {
@@ -641,11 +722,25 @@ button:hover {
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #000;        /* Noir */
-  font-size: 1.2em;   /* Optionnel : ajuste la taille */
+  color: #333;
+  font-size: 1.2em;
   z-index: 2;
 }
+
+/* Fix pour les icônes Font Awesome */
 .fa-solid, .fas {
-    font-weight: 900;
-    color: black;
+  font-weight: 900;
+  color: #333;
+}
+
+/* Ajustements pour les champs texte sur fond sombre */
+.modal-form input,
+.modal-form textarea {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.modal-form input::placeholder,
+.modal-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5);
 }

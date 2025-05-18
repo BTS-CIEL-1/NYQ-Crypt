@@ -7,7 +7,7 @@
 }
 
 body {
-    background-image: url(/img/backnyq.jpg);
+    background-image: url(/img/fate-wp.jpg);
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
@@ -743,4 +743,28 @@ textarea {
 .modal-form input::placeholder,
 .modal-form textarea::placeholder {
   color: rgba(255, 255, 255, 0.5);
+}
+
+.nav-accueil {
+  text-align: right;
+  margin: 10px 0 20px 10px;
+}
+
+.btn-accueil {
+  display: inline-block;
+  color: #5ce1e6;
+  text-decoration: none;
+  border: 1px solid #5ce1e6;
+  padding: 6px 14px;
+  border-radius: 5px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.05);
+  margin-top: 20px;
+  margin-right: 30px;
+}
+
+.btn-accueil:hover {
+  background-color: rgba(92, 225, 230, 0.1);
+  box-shadow: 0 0 10px rgba(92, 225, 230, 0.2);
 }

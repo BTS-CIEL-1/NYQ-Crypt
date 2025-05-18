@@ -21,17 +21,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const keyStrengthBar = document.getElementById('keyStrengthBar');
     const keyStrengthText = document.getElementById('keyStrengthText');
 
+
+    window.addEventListener('load', () => {
+        clearFields();
+    });
+
+
     // Gestionnaire pour la sélection de fichier
-    fileInput.addEventListener('change', function(e) {
+    fileInput.addEventListener('change', function (e) {
         if (this.files.length > 0) {
             const file = this.files[0];
             fileName.textContent = file.name;
-            
+
             // Vérifier si le mode binaire est activé
             if (binaryModeCheckbox.checked) {
                 // Lire le fichier comme un tableau d'octets
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     binaryData = e.target.result;
                     textInput.value = `[Fichier binaire chargé - ${file.size} octets]`;
                     isBinaryMode = true;
@@ -40,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 // Lire le fichier comme du texte
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     textInput.value = e.target.result;
                     binaryData = null;
                     isBinaryMode = false;
@@ -51,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Gestionnaire pour le mode binaire
-    binaryModeCheckbox.addEventListener('change', function() {
+    binaryModeCheckbox.addEventListener('change', function () {
         if (fileInput.files.length > 0) {
             // Recharger le fichier avec le nouveau mode
             fileInput.dispatchEvent(new Event('change'));
@@ -85,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function evaluateKeyStrength() {
         try {
             const key = keyInput.value;
-            
+
             // Si la clé est vide, réinitialiser la barre
             if (!key) {
                 keyStrengthBar.style.width = '0%';
@@ -93,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 keyStrengthText.textContent = 'Force de la clé';
                 return;
             }
-            
+
             // Appeler l'API pour évaluer la clé
             const response = await fetch(API_URL, {
                 method: 'POST',
@@ -105,15 +111,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     key: key
                 })
             });
-            
+
             const data = await response.json();
-            
+
             if (data.success) {
                 const strength = data.strength;
-                
+
                 // Mettre à jour la barre de force
                 keyStrengthBar.style.width = `${strength}%`;
-                
+
                 // Mettre à jour la couleur et le texte en fonction de la force
                 if (strength < 30) {
                     keyStrengthBar.className = 'key-strength-bar weak';
@@ -138,16 +144,16 @@ document.addEventListener('DOMContentLoaded', () => {
     async function encrypt() {
         try {
             const key = keyInput.value;
-            
+
             if (!key) {
                 alert('Veuillez entrer une clé de cryptage.');
                 return;
             }
-            
+
             if (isBinaryMode && binaryData) {
                 // Chiffrer des données binaires
                 const base64Data = arrayBufferToBase64(binaryData);
-                
+
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
@@ -160,14 +166,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         isBinary: true
                     })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (data.success) {
                     // Stocker le résultat
                     binaryData = base64ToArrayBuffer(data.result);
                     textInput.value = `[Données binaires cryptées - ${new Uint8Array(binaryData).length} octets]`;
-                    
+
                     // Afficher un message de succès
                     showResult('Cryptage réussi ! Les données binaires ont été cryptées.');
                 } else {
@@ -176,12 +182,12 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 // Chiffrer du texte
                 const text = textInput.value;
-                
+
                 if (!text) {
                     alert('Veuillez entrer du texte à crypter.');
                     return;
                 }
-                
+
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
@@ -194,9 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         isBinary: false
                     })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (data.success) {
                     textInput.value = data.result;
                     showResult('Cryptage réussi !');
@@ -214,16 +220,16 @@ document.addEventListener('DOMContentLoaded', () => {
     async function decrypt() {
         try {
             const key = keyInput.value;
-            
+
             if (!key) {
                 alert('Veuillez entrer une clé de cryptage.');
                 return;
             }
-            
+
             if (isBinaryMode && binaryData) {
                 // Déchiffrer des données binaires
                 const base64Data = arrayBufferToBase64(binaryData);
-                
+
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
@@ -236,14 +242,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         isBinary: true
                     })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (data.success) {
                     // Stocker le résultat
                     binaryData = base64ToArrayBuffer(data.result);
                     textInput.value = `[Données binaires décryptées - ${new Uint8Array(binaryData).length} octets]`;
-                    
+
                     // Afficher un message de succès
                     showResult('Décryptage réussi ! Les données binaires ont été décryptées.');
                 } else {
@@ -252,12 +258,12 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 // Déchiffrer du texte
                 const text = textInput.value;
-                
+
                 if (!text) {
                     alert('Veuillez entrer du texte à décrypter.');
                     return;
                 }
-                
+
                 const response = await fetch(API_URL, {
                     method: 'POST',
                     headers: {
@@ -270,9 +276,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         isBinary: false
                     })
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (data.success) {
                     textInput.value = data.result;
                     showResult('Décryptage réussi !');
@@ -307,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Télécharger les données binaires
             const blob = new Blob([new Uint8Array(binaryData)], { type: 'application/octet-stream' });
             const url = URL.createObjectURL(blob);
-            
+
             const a = document.createElement('a');
             a.href = url;
             a.download = 'donnees_traitees.bin';
@@ -320,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const text = textInput.value;
             const blob = new Blob([text], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
-            
+
             const a = document.createElement('a');
             a.href = url;
             a.download = 'texte_traite.txt';
@@ -336,34 +342,29 @@ document.addEventListener('DOMContentLoaded', () => {
         resultContent.textContent = message;
         resultContent.className = isError ? 'error' : 'success';
         resultDiv.style.display = 'block';
-        
-        // Masquer après 5 secondes
-        setTimeout(() => {
-            resultDiv.style.display = 'none';
-        }, 5000);
-    }
 
-    // Ajouter les gestionnaires d'événements
-    encryptBtn.addEventListener('click', encrypt);
-    decryptBtn.addEventListener('click', decrypt);
-    clearBtn.addEventListener('click', clearFields);
-    downloadBtn.addEventListener('click', downloadResult);
+        // Ajouter les gestionnaires d'événements
+        encryptBtn.addEventListener('click', encrypt);
+        decryptBtn.addEventListener('click', decrypt);
+        clearBtn.addEventListener('click', clearFields);
+        downloadBtn.addEventListener('click', downloadResult);
 
-    // Vérifier la connexion au serveur
-    async function checkServerConnection() {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'OPTIONS'
-            });
-            
-            if (response.ok) {
-                console.log('Connecté au serveur de cryptage.');
-            } else {
-                console.warn('Connexion au serveur établie mais avec un statut non-OK:', response.status);
+        // Vérifier la connexion au serveur
+        async function checkServerConnection() {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'OPTIONS'
+                });
+
+                if (response.ok) {
+                    console.log('Connecté au serveur de cryptage.');
+                } else {
+                    console.warn('Connexion au serveur établie mais avec un statut non-OK:', response.status);
+                }
+            } catch (error) {
+                console.error('Impossible de se connecter au serveur de cryptage:', error);
+                alert('Le serveur de cryptage n\'est pas accessible. Veuillez vérifier que le programme backend est en cours d\'exécution sur le port 3000.');
             }
-        } catch (error) {
-            console.error('Impossible de se connecter au serveur de cryptage:', error);
-            alert('Le serveur de cryptage n\'est pas accessible. Veuillez vérifier que le programme backend est en cours d\'exécution sur le port 3000.');
         }
     }
 });

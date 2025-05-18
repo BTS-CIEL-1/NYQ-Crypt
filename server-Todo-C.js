@@ -136,7 +136,7 @@ app.post('/signup', async (req, res) => {
       from: 'quentin.varma@lycee-jeanrostand.fr',
       to: email,
       subject: 'Confirmation d\'inscription',
-      text: `Bonjour ${firstName},\n\n Vous êtes bien inscrit !\n\n Voici votre clé privée: 78@gh4808C!aQ,\n L'équipe NYQ-Crypt`
+      text: `Bonjour ${firstName},\n\n Vous êtes bien inscrit !\n\n Cordialement,\n L'équipe NYQ-Crypt`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {

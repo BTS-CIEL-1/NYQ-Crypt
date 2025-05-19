@@ -22,6 +22,14 @@
             <p>Solution de cryptage simple et sécurisée</p>
         </header>
 
+
+         <div class="form-group">
+                <label for="fileInput" class="file-label">Choisir un fichier</label>
+                <input type="file" id="fileInput" class="file-input">
+                <span id="fileName" class="file-name">Aucun fichier sélectionné</span>
+            </div>
+
+
         <label for="texteInput">Texte à traiter :</label>
         <textarea id="texteInput" placeholder="Entrez le texte ici..."></textarea>
 
@@ -37,90 +45,90 @@
         <textarea id="resultat" readonly placeholder="Le résultat apparaîtra ici..."></textarea>
     </div>
 
-     <!-- Section Support Améliorée -->
-        <div class="support-section">
-            <h3>Support Technique</h3>
-            <p>Notre équipe d'experts en cryptographie est à votre disposition pour vous accompagner dans l'utilisation
-                de NYQ Crypt</p>
+    <!-- Section Support Améliorée -->
+    <div class="support-section">
+        <h3>Support Technique</h3>
+        <p>Notre équipe d'experts en cryptographie est à votre disposition pour vous accompagner dans l'utilisation
+            de NYQ Crypt</p>
 
-            <div class="support-flex">
-                <div class="support-card">
-                    <i class="fas fa-envelope support-card-icon"></i>
-                    <h4>Assistance par Email</h4>
-                    <div class="support-card-content">
-                        <p>Pour toute question technique ou problème d'utilisation, contactez-nous à l'adresse : <a
-                                href="mailto:support@nyq-crypt.com" class="email-support">support@nyq-crypt.com</a></p>
-                        <p>Temps de réponse moyen : sous 24h</p>
-                    </div>
-                </div>
-
-                <div class="support-card">
-                    <i class="fas fa-comments support-card-icon"></i>
-                    <h4>Support Immédiat</h4>
-                    <div class="support-card-content">
-                        <p>Besoin d'aide rapide ? Utilisez notre formulaire de contact pour recevoir une assistance
-                            prioritaire.</p>
-                        <button id="openContactModal" class="support-btn">Contacter le support</button>
-                    </div>
-                </div>
-
-                <div class="support-card">
-                    <i class="fas fa-book support-card-icon"></i>
-                    <h4>Documentation</h4>
-                    <div class="support-card-content">
-                        <p>Consultez notre documentation complète pour apprendre à utiliser toutes les fonctionnalités
-                            de NYQ Crypt.</p>
-                        <a href="https://docs.google.com/presentation/d/1UaAQ1qz5vx4EYYllQYWVeS2axDNi9aURrgOHctDisw0/edit?slide=id.g35a2e079f26_1_17#slide=id.g35a2e079f26_1_17"
-                            target="_blank" class="support-btn">Consulter le guide</a>
-                    </div>
+        <div class="support-flex">
+            <div class="support-card">
+                <i class="fas fa-envelope support-card-icon"></i>
+                <h4>Assistance par Email</h4>
+                <div class="support-card-content">
+                    <p>Pour toute question technique ou problème d'utilisation, contactez-nous à l'adresse : <a
+                            href="mailto:support@nyq-crypt.com" class="email-support">support@nyq-crypt.com</a></p>
+                    <p>Temps de réponse moyen : sous 24h</p>
                 </div>
             </div>
 
-            <div class="support-quick-links">
-                <h4>Ressources Rapides</h4>
-                <div class="support-buttons">
-                    <a href="#" class="support-btn"><i class="fas fa-graduation-cap"></i> Tutoriels</a>
-                    <a href="#" class="support-btn"><i class="fas fa-question-circle"></i> FAQ</a>
-                    <a href="#" class="support-btn"><i class="fas fa-shield-alt"></i> Bonnes pratiques</a>
-                    <a href="#" class="support-btn"><i class="fas fa-history"></i> Notes de mise à jour</a>
+            <div class="support-card">
+                <i class="fas fa-comments support-card-icon"></i>
+                <h4>Support Immédiat</h4>
+                <div class="support-card-content">
+                    <p>Besoin d'aide rapide ? Utilisez notre formulaire de contact pour recevoir une assistance
+                        prioritaire.</p>
+                    <button id="openContactModal" class="support-btn">Contacter le support</button>
+                </div>
+            </div>
+
+            <div class="support-card">
+                <i class="fas fa-book support-card-icon"></i>
+                <h4>Documentation</h4>
+                <div class="support-card-content">
+                    <p>Consultez notre documentation complète pour apprendre à utiliser toutes les fonctionnalités
+                        de NYQ Crypt.</p>
+                    <a href="https://docs.google.com/presentation/d/1UaAQ1qz5vx4EYYllQYWVeS2axDNi9aURrgOHctDisw0/edit?slide=id.g35a2e079f26_1_17#slide=id.g35a2e079f26_1_17"
+                        target="_blank" class="support-btn">Consulter le guide</a>
                 </div>
             </div>
         </div>
 
-        <!-- Modal de Contact -->
-        <div id="contactModal" class="support-modal">
-            <div class="modal-content">
-                <button class="close-modal">&times;</button>
-                <h3>Contactez Notre Support Technique</h3>
-                <form id="supportContactForm" class="modal-form">
-                    <div class="form-group">
-                        <label for="contactName">Votre nom</label>
-                        <input type="text" id="contactName" placeholder="Entrez votre nom" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="contactEmail">Votre email</label>
-                        <input type="email" id="contactEmail" placeholder="Entrez votre adresse email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="contactSubject">Sujet</label>
-                        <input type="text" id="contactSubject" placeholder="Sujet de votre demande" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="contactMessage">Message</label>
-                        <textarea id="contactMessage" placeholder="Détaillez votre problème ou votre question..."
-                            required></textarea>
-                    </div>
-                    <div class="success-message" id="contactSuccessMessage">
-                        Votre message a été envoyé avec succès ! Notre équipe vous contactera très prochainement.
-                    </div>
-                    <button type="submit">Envoyer la demande</button>
-                </form>
+        <div class="support-quick-links">
+            <h4>Ressources Rapides</h4>
+            <div class="support-buttons">
+                <a href="#" class="support-btn"><i class="fas fa-graduation-cap"></i> Tutoriels</a>
+                <a href="#" class="support-btn"><i class="fas fa-question-circle"></i> FAQ</a>
+                <a href="#" class="support-btn"><i class="fas fa-shield-alt"></i> Bonnes pratiques</a>
+                <a href="#" class="support-btn"><i class="fas fa-history"></i> Notes de mise à jour</a>
             </div>
         </div>
+    </div>
 
-        <div class="footer">
-            <p>NYQ Crypt © 2025 - Tous droits réservés</p>
+    <!-- Modal de Contact -->
+    <div id="contactModal" class="support-modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <h3>Contactez Notre Support Technique</h3>
+            <form id="supportContactForm" class="modal-form">
+                <div class="form-group">
+                    <label for="contactName">Votre nom</label>
+                    <input type="text" id="contactName" placeholder="Entrez votre nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">Votre email</label>
+                    <input type="email" id="contactEmail" placeholder="Entrez votre adresse email" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactSubject">Sujet</label>
+                    <input type="text" id="contactSubject" placeholder="Sujet de votre demande" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactMessage">Message</label>
+                    <textarea id="contactMessage" placeholder="Détaillez votre problème ou votre question..."
+                        required></textarea>
+                </div>
+                <div class="success-message" id="contactSuccessMessage">
+                    Votre message a été envoyé avec succès ! Notre équipe vous contactera très prochainement.
+                </div>
+                <button type="submit">Envoyer la demande</button>
+            </form>
         </div>
+    </div>
+
+    <div class="footer">
+        <p>NYQ Crypt © 2025 - Tous droits réservés</p>
+    </div>
     </div>
 
     <script src="js/app.js"></script>

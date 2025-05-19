@@ -3,79 +3,38 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NYQ Crypt - Solution de Cryptage Sécurisée</title>
-    <link rel="stylesheet" href="css/style2.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NYQ Crypt - Chiffrement / Déchiffrement</title>
     <link rel="icon" type="image/png" href="/img/nyq-crypt-logo.PNG">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style2.css">
 </head>
 
 <body>
+
     <nav class="nav-accueil">
         <a href="index.html" class="btn-accueil">Accueil</a>
     </nav>
+
     <div class="container">
-        <header>
-            <div class="logo">NYQ Crypt</div>
-            <p>Solution de cryptage simple et sécurisée</p>
-        </header>
+        <h1>NYQ Crypt</h1>
 
-        <div class="content">
-            <div class="form-group">
+        <label for="texteInput">Texte à traiter :</label>
+        <textarea id="texteInput" placeholder="Entrez le texte ici..."></textarea>
 
-            </div>
+        <label for="cleInput">Clé (nombre entier, ex : 3) :</label>
+        <input type="text" id="cleInput" placeholder="Entrez la clé de chiffrement...">
 
-            <div class="form-group">
-                <label for="fileInput" class="file-label">Choisir un fichier</label>
-                <input type="file" id="fileInput" class="file-input">
-                <span id="fileName" class="file-name">Aucun fichier sélectionné</span>
-            </div>
-
-            <div class="form-group">
-                <label for="keyInput">Clé de chiffrement :</label>
-                <textarea id="keyInput" rows="6" placeholder="Entrez votre clé ici"></textarea>
-            </div>
-
-
-            <div class="form-group">
-                <label for="textInput">Texte à Chiffrer/Déchiffrer:</label>
-                <textarea id="textInput" rows="6" placeholder="Entrez votre texte ici ou chargez un fichier"></textarea>
-            </div>
-
-            <div class="options">
-                <label class="checkbox-container">
-                    <input type="checkbox" id="binaryMode">
-                    <span class="checkmark"></span>
-                    Mode binaire (pour fichiers non-textuels)
-                </label>
-            </div>
-
-            <div class="buttons">
-                <button id="encryptBtn" class="encrypt-btn">Chiffrer</button>
-                <button id="decryptBtn" class="decrypt-btn">Déchiffrer</button>
-                <button id="clearBtn" class="clear-btn">Effacer</button>
-                <button id="downloadBtn">Télécharger</button>
-            </div>
-
-            <div id="result" class="result" style="display: none;">
-                <h3>Résultat:</h3>
-                <div id="resultContent"></div>
-            </div>
+        <div class="buttons">
+            <button id="btnChiffrer">🔐 Chiffrer</button>
+            <button id="btnDechiffrer">🔓 Déchiffrer</button>
         </div>
 
-        <div class="info-section">
-            <h3>Comment ça fonctionne</h3>
-            <p>NYQ Crypt utilise un algorithme de chiffrement symétrique personnalisé pour sécuriser vos données.</p>
-            <ol>
-                <li>Entrez une clé robuste (elle sera nécessaire pour déchiffrer)</li>
-                <li>Saisissez du texte ou chargez un fichier</li>
-                <li>Cliquez sur "Chiffrer" pour sécuriser vos données</li>
-                <li>Pour Déchiffrer, fournissez la même clé et le texte chiffré</li>
-            </ol>
-            <p class="warning">Attention : Si vous perdez votre clé, vos données ne pourront pas être récupérées!</p>
-        </div>
+        <label for="resultat">Résultat :</label>
+        <textarea id="resultat" readonly placeholder="Le résultat apparaîtra ici..."></textarea>
+    </div>
 
-        <!-- Section Support Améliorée -->
+     <!-- Section Support Améliorée -->
         <div class="support-section">
             <h3>Support Technique</h3>
             <p>Notre équipe d'experts en cryptographie est à votre disposition pour vous accompagner dans l'utilisation
@@ -160,7 +119,7 @@
             <p>NYQ Crypt © 2025 - Tous droits réservés</p>
         </div>
     </div>
-    <script src="js/script.js"></script>
+
     <script src="js/app.js"></script>
     <script src="js/support.js"></script>
 </body>

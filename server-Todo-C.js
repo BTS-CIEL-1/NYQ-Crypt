@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 });
 
 // Le serveur Express écoute sur le port 3000
-app.listen(3000, () => {
+app.listen(3001, () => {
   console.log('Le serveur est en écoute sur le port 3000');
 });
 

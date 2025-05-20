@@ -132,12 +132,19 @@ app.post('/signup', async (req, res) => {
 
 
     // Envoi d'un e-mail de confirmation
-    const mailOptions = {
-      from: 'quentin.varma@lycee-jeanrostand.fr',
-      to: email,
-      subject: 'Confirmation d\'inscription',
-      text: `Bonjour ${firstName},\n\n Vous êtes bien inscrit !\n\n Cordialement,\n L'équipe NYQ-Crypt`
-    };
+const mailOptions = {
+  from: 'CyberBot@NYQ-Crypt.fr',
+  to: email,
+  subject: 'Confirmation d\'inscription - NYQ-Crypt',
+  text: `Bonjour ${firstName},
+
+Vous êtes bien inscrit à NYQ-Crypt !
+
+Attention : ceci est un e-mail automatique, veuillez ne pas répondre.
+
+Cordialement,
+L'équipe NYQ-Crypt`
+};
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {

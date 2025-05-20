@@ -1,4 +1,3 @@
-/* style.css - Styles optimisés pour NYQ Crypt */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -769,3 +768,11 @@ textarea {
   box-shadow: 0 0 10px rgba(92, 225, 230, 0.2);
 }
 
+input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #00c2ff;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

@@ -19,15 +19,21 @@
     <div class="container">
         <header>
             <div class="logo">NYQ Crypt</div>
-            <p>Solution de cryptage simple et sécurisée</p>
+            <p>Solution de Chiffrement simple et sécurisée</p>
         </header>
 
 
-         <div class="form-group">
-                <label for="fileInput" class="file-label">Choisir un fichier</label>
-                <input type="file" id="fileInput" class="file-input">
-                <span id="fileName" class="file-name">Aucun fichier sélectionné</span>
-            </div>
+        <div class="form-group">
+            <label for="fileInput" class="file-label">Choisir un fichier</label>
+            <input type="file" id="fileInput" class="file-input">
+            <span id="fileName" class="file-name">Aucun fichier sélectionné</span>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Envoyer à :</label>
+            <input type="email" id="emailInput" placeholder="exemple@mail.com">
+            <button id="btnEnvoyer" class="secondary">📧 Envoyer par mail</button>
+        </div>
 
 
         <label for="texteInput">Texte à traiter :</label>
@@ -131,8 +137,8 @@
     </div>
     </div>
 
-    <script src="js/app.js"></script>
-    <script src="js/support.js"></script>
+    <script src="js/app.js" defer> </script>
+    <script src="js/support.js" defer ></script>
 </body>
 
 </html>

@@ -1,4 +1,18 @@
-// --- Sélection des éléments HTML ---
+// Onglets
+document.querySelectorAll('.tab-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    button.classList.add('active');
+    const tabId = button.dataset.tab + '-tab';
+    document.getElementById(tabId).classList.add('active');
+  });
+});
+
+// Chiffrement personnalisé
+const emailInput = document.getElementById("emailInput");
+const btnEnvoyer = document.getElementById("btnEnvoyer");
+
 const textInput = document.getElementById("texteInput");
 const encryptBtn = document.getElementById("btnChiffrer");
 const decryptBtn = document.getElementById("btnDechiffrer");
@@ -17,6 +31,28 @@ fileInput.addEventListener("change", function () {
   } else {
     alert("Veuillez sélectionner un fichier texte (.txt).");
   }
+});
+
+btnEnvoyer.addEventListener("click", () => {
+  console.log("→ Clic sur Envoyer détecté");
+
+  const email = emailInput.value;
+  const message = resultText.value;
+
+  console.log("Email : ", email);
+  console.log("Message : ", message);
+
+  if (!email || !message) {
+    alert("Veuillez saisir un e-mail et chiffrer un texte d'abord.");
+    return;
+  }
+
+  const subject = encodeURIComponent("Message chiffré depuis NYQ Crypt");
+  const body = encodeURIComponent("Voici le message chiffré :\n\n" + message);
+  const mailtoLink = `mailto:${email}?subject=${subject}&body=${body}`;
+
+  console.log("Mailto URL : ", mailtoLink);
+  window.location.href = mailtoLink;
 });
 
 function getDecalageDepuisCle(cle) {
@@ -61,9 +97,7 @@ function dechiffrerBase64(texte) {
 function encrypt() {
   const key = keyInput.value;
   let text = textInput.value;
-
-  if (!text) return alert("Veuillez entrer du texte à chiffrer.");
-  if (!key) return alert("Veuillez entrer une clé secrète.");
+  if (!text || !key) return alert("Veuillez entrer le texte et la clé.");
 
   text = chiffrerCesar(text, key);
   text = chiffrerXOR(text, key);
@@ -75,9 +109,7 @@ function encrypt() {
 function decrypt() {
   const key = keyInput.value;
   let text = resultText.value;
-
-  if (!text) return alert("Veuillez entrer du texte à déchiffrer.");
-  if (!key) return alert("Veuillez entrer la clé utilisée pour le chiffrement.");
+  if (!text || !key) return alert("Veuillez entrer le texte et la clé.");
 
   text = dechiffrerBase64(text);
   text = dechiffrerXOR(text, key);

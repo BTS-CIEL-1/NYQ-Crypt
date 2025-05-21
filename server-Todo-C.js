@@ -30,8 +30,8 @@ app.get('/', (req, res) => {
 });
 
 // Le serveur Express écoute sur le port 3000
-app.listen(3001, () => {
-  console.log('Le serveur est en écoute sur le port 3001');
+app.listen(3000, () => {
+  console.log('Le serveur est en écoute sur le port 3000');
 });
 
 
@@ -86,10 +86,6 @@ const User = mongoose.model('User', userSchema, 'users');
 // Configurer le transporteur de mail
 const transporter = nodemailer.createTransport({
   service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER || 'quentin.varma@lycee-jeanrostand.fr', // Utilisez les variables d'environnement
-    pass: process.env.EMAIL_PASS || 'gfjbfbplidvffrxt'     // ou remplacez par vos identifiants
-  }
 });
 
 
@@ -132,11 +128,11 @@ app.post('/signup', async (req, res) => {
 
 
     // Envoi d'un e-mail de confirmation
-const mailOptions = {
-  from: 'CyberBot@NYQ-Crypt.fr',
-  to: email,
-  subject: 'Confirmation d\'inscription - NYQ-Crypt',
-  text: `Bonjour ${firstName},
+    const mailOptions = {
+      from: 'CyberBot@NYQ-Crypt.fr',
+      to: email,
+      subject: 'Confirmation d\'inscription - NYQ-Crypt',
+      text: `Bonjour ${firstName},
 
 Vous êtes bien inscrit à NYQ-Crypt !
 
@@ -144,7 +140,7 @@ Attention : ceci est un e-mail automatique, veuillez ne pas répondre.
 
 Cordialement,
 L'équipe NYQ-Crypt`
-};
+    };
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -154,7 +150,14 @@ L'équipe NYQ-Crypt`
       }
     });
 
-
+    app.get('/api/users', async (req, res) => {
+      try {
+        const users = await User.find();
+        res.json(users);
+      } catch (err) {
+        res.status(500).json({ message: 'Erreur serveur' });
+      }
+    });
 
 
     // Redirection en cas de succès

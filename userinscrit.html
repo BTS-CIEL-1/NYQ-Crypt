@@ -1,28 +1,60 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Utilisateurs  - NYQ-CRYPT</title>
-  <link rel="stylesheet" href="css/style2.css">
-  <link rel="icon" type="image/png" href="/img/nyq-crypt-logo.PNG">
-</head>
-<body>
-  <h1>Liste des utilisateurs </h1>
-  <ul id="user-list"></ul>
 
-  <script>
-    fetch('http://localhost:3000/api/users')
-      .then(response => response.json())
-      .then(users => {
-        const userList = document.getElementById('user-list');
-        users.forEach(user => {
-          const li = document.createElement('li');
-          li.textContent = `${user.firstName} ${user.lastName} - ${user.email}`;
-          userList.appendChild(li);
-        });
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Utilisateurs - NYQ-CRYPT</title>
+    <link rel="stylesheet" href="css/style2.css">
+    <link rel="icon" type="image/png" href="/img/nyq-crypt-logo.PNG">
+</head>
+
+<body>
+    <h1>Liste des utilisateurs </h1>
+    <ul id="user-list"></ul>
+    <div class="email-form">
+        <input type="text" id="subject" placeholder="Sujet du mail">
+        <textarea id="emailContent" placeholder="Contenu du mail"></textarea>
+        <button id="sendMailButton">Envoyer un mail à tous</button>
+    </div>
+    <script>
+        fetch('http://localhost:3000/api/users')
+            .then(response => response.json())
+            .then(users => {
+                const userList = document.getElementById('user-list');
+                users.forEach(user => {
+                    const li = document.createElement('li');
+                    li.textContent = `${user.firstName} ${user.lastName} - ${user.email}`;
+                    userList.appendChild(li);
+                });
+             document.getElementById('sendMailButton').addEventListener('click', () => {
+      const subject = document.getElementById('subject').value;
+      const content = document.getElementById('emailContent').value;
+      
+      if (!subject || !content) {
+        alert('Veuillez remplir tous les champs');
+        return;
+      }
+
+      fetch('/api/send-mass-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ subject, content })
       })
-      .catch(err => console.error('Erreur lors de la récupération des utilisateurs :', err));
-  </script>
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message);
+      })
+      .catch(error => {
+        console.error('Erreur:', error);
+        alert('Erreur lors de l\'envoi');
+      });
+    });
+            })
+            .catch(err => console.error('Erreur lors de la récupération des utilisateurs :', err));
+    </script>
 </body>
+
 </html>

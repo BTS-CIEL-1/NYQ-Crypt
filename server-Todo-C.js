@@ -89,6 +89,60 @@ const transporter = nodemailer.createTransport({
 });
 
 
+// Route pour l'envoi de mail en masse
+app.post('/api/send-mass-email', async (req, res) => {
+  try {
+    const { subject, content } = req.body;
+    
+    // Récupérer tous les utilisateurs
+    const users = await User.find();
+    
+    // Configurer l'email
+const encryptedMessage = encryptText(message, password); // à ajuster selon ta logique
+
+const mailOptions = {
+  from: 'CyberBot@NYQ-Crypt.fr',
+  to: email,
+  subject: 'Confirmation d\'inscription - NYQ-Crypt',
+  text: `Bonjour ${firstName},
+
+Vous êtes bien inscrit à NYQ-Crypt !
+
+Attention : ceci est un e-mail automatique, veuillez ne pas répondre.
+
+Voici votre message chiffré :
+${encryptedMessage}
+
+Cordialement,
+L'équipe NYQ-Crypt`
+};
+
+
+    // Envoyer à chaque utilisateur
+    for (const user of users) {
+      mailOptions.to = user.email;
+      await transporter.sendMail(mailOptions);
+    }
+
+    res.json({ message: 'Emails envoyés avec succès' });
+  } catch (error) {
+    console.error('Erreur lors de l\'envoi des emails:', error);
+    res.status(500).json({ message: 'Erreur lors de l\'envoi des emails' });
+  }
+});
+
+
+
+app.get('/api/users', async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur serveur' });
+  }
+});
+
+
 /*****************************************************************************************************************************
 *  --Todo 4--      Création d'une route HTTP avec la méthode "POST" pour récupérer les données du formulaire d'inscription   *
 ******************************************************************************************************************************/
@@ -147,15 +201,6 @@ L'équipe NYQ-Crypt`
         console.error("Erreur lors de l'envoi de l'email :", error);
       } else {
         console.log("Email de confirmation envoyé :", info.response);
-      }
-    });
-
-    app.get('/api/users', async (req, res) => {
-      try {
-        const users = await User.find();
-        res.json(users);
-      } catch (err) {
-        res.status(500).json({ message: 'Erreur serveur' });
       }
     });
 

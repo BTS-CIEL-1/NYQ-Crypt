@@ -335,6 +335,12 @@ button:hover {
     font-size: 0.9rem;
 }
 
+
+.footer p {
+    color: #5ce1e6;
+    text-decoration: none;
+    transition: color 0.3s;
+}
 /* Responsive design */
 @media (max-width: 768px) {
     .container {
@@ -794,4 +800,34 @@ input[type="email"] {
   border-radius: 4px;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+
+/* ...existing code... */
+
+.email-form {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.email-form input,
+.email-form textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
+.email-form button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.email-form button:hover {
+  background-color: #0056b3;
 }

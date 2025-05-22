@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Utilisateurs Inscrits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            padding: 15px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            width: 400px;
+            max-width: 100%;
+            outline: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .user-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .user-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .user-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .user-email {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .user-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .info-value {
+            color: #333;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.2rem;
+            padding: 50px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .no-users {
+            text-align: center;
+            color: white;
+            font-size: 1.3rem;
+            padding: 50px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .stats {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            .search-input {
+                width: 100%;
+            }
+            .users-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👥 Utilisateurs Inscrits</h1>
+            <p>Liste de tous les membres de NYQ-Crypt</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <span class="stat-number" id="totalUsers">0</span>
+                <span class="stat-label">Total</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="recentUsers">0</span>
+                <span class="stat-label">Cette semaine</span>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" class="search-input" id="searchInput" placeholder="🔍 Rechercher un utilisateur...">
+        </div>
+
+        <div id="loadingDiv" class="loading">
+            <div class="spinner"></div>
+            <p>Chargement des utilisateurs...</p>
+        </div>
+
+        <div id="usersGrid" class="users-grid" style="display: none;">
+            <!-- Les utilisateurs seront affichés ici -->
+        </div>
+
+        <div id="noUsers" class="no-users" style="display: none;">
+            <h2>😔 Aucun utilisateur trouvé</h2>
+            <p>Il n'y a pas encore d'utilisateurs inscrits dans la base de données.</p>
+        </div>
+    </div>
+
+    <script>
+        let allUsers = [];
+
+        // Chargement des utilisateurs au démarrage
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUsers();
+            
+            // Recherche en temps réel
+            document.getElementById('searchInput').addEventListener('input', function() {
+                filterUsers(this.value);
+            });
+        });
+
+        function loadUsers() {
+            // Appel à votre API pour récupérer les utilisateurs
+            fetch('/api/users')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur lors du chargement');
+                    }
+                    return response.json();
+                })
+                .then(users => {
+                    allUsers = users;
+                    displayUsers(users);
+                    updateStats();
+                    hideLoading();
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    showNoUsers();
+                    hideLoading();
+                });
+        }
+
+        function displayUsers(users) {
+            const grid = document.getElementById('usersGrid');
+            grid.innerHTML = '';
+
+            if (users.length === 0) {
+                showNoUsers();
+                return;
+            }
+
+            users.forEach(user => {
+                const userCard = createUserCard(user);
+                grid.appendChild(userCard);
+            });
+
+            grid.style.display = 'grid';
+            document.getElementById('noUsers').style.display = 'none';
+        }
+
+        function createUserCard(user) {
+            const card = document.createElement('div');
+            card.className = 'user-card';
+            
+            // Première lettre du prénom pour l'avatar
+            const avatarLetter = user.firstName ? user.firstName.charAt(0).toUpperCase() : '?';
+            
+            // Date d'inscription formatée
+            const inscriptionDate = user.createdAt ? 
+                new Date(user.createdAt).toLocaleDateString('fr-FR') : 
+                'Date inconnue';
+
+            card.innerHTML = `
+                <div class="user-avatar">
+                    ${avatarLetter}
+                </div>
+                <div class="user-name">
+                    ${user.firstName || ''} ${user.lastName || ''}
+                </div>
+                <div class="user-email">
+                    📧 ${user.email}
+                </div>
+                <div class="user-info">
+                    <div class="info-row">
+                        <span class="info-label">Prénom:</span>
+                        <span class="info-value">${user.firstName || 'Non renseigné'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Nom:</span>
+                        <span class="info-value">${user.lastName || 'Non renseigné'}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Inscrit le:</span>
+                        <span class="info-value">${inscriptionDate}</span>
+                    </div>
+                    ${user.message ? `
+                    <div class="info-row">
+                        <span class="info-label">Message:</span>
+                        <span class="info-value">${user.message}</span>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+
+            return card;
+        }
+
+        function filterUsers(searchTerm) {
+            if (!searchTerm.trim()) {
+                displayUsers(allUsers);
+                return;
+            }
+
+            const filteredUsers = allUsers.filter(user => {
+                const fullName = `${user.firstName || ''} ${user.lastName || ''}`.toLowerCase();
+                const email = (user.email || '').toLowerCase();
+                const search = searchTerm.toLowerCase();
+                
+                return fullName.includes(search) || email.includes(search);
+            });
+
+            displayUsers(filteredUsers);
+        }
+
+        function updateStats() {
+            document.getElementById('totalUsers').textContent = allUsers.length;
+            
+            // Calcul des utilisateurs de cette semaine
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+            
+            const recentUsers = allUsers.filter(user => {
+                const userDate = new Date(user.createdAt);
+                return userDate >= oneWeekAgo;
+            });
+            
+            document.getElementById('recentUsers').textContent = recentUsers.length;
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingDiv').style.display = 'none';
+        }
+
+        function showNoUsers() {
+            document.getElementById('noUsers').style.display = 'block';
+            document.getElementById('usersGrid').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

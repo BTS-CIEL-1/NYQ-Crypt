@@ -65,7 +65,7 @@ async function verifierFormulaire2(event) {
         sessionStorage.setItem('userFirstName', data.firstName);
 
         // Redirection vers le dashboard
-        window.location.href = 'dashboard.html';
+        window.location.href = 'connexion-réussie.html';
 
     } catch (error) {
         console.error('Erreur:', error);

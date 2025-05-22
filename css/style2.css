@@ -6,7 +6,7 @@
 }
 
 body {
-    background-image: url(/img/fate-wp.jpg);
+    background-color: black;
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
@@ -803,7 +803,6 @@ input[type="email"] {
 }
 
 
-/* ...existing code... */
 
 .email-form {
   margin: 20px;

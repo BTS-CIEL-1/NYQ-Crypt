@@ -1,5 +1,3 @@
-
-
 /*************************************************************************
 *   Chargement des modules nécessaires au fonctionnement du serveur      *
 *                et Configuration du serveur express                     *                                                                                                 *
@@ -30,8 +28,8 @@ app.get('/', (req, res) => {
 });
 
 // Le serveur Express écoute sur le port 3000
-app.listen(3000, () => {
-  console.log('Le serveur est en écoute sur le port 3000');
+app.listen(3001, () => {
+  console.log('Le serveur est en écoute sur le port 3001');
 });
 
 
@@ -67,12 +65,36 @@ mongoose.connect('mongodb+srv://quentinvarma:sYv5dGJiBpOCGtxU@cluster0.nsqo5dz.m
 *********************************************************************************/
 
 // Création du modèle schema pour la collection users
+// Remplacez votre userSchema existant par celui-ci :
 const userSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true }, // Email unique
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
-  message: { type: String }
+  message: { type: String },
+  // Nouveaux champs pour le dashboard
+  role: { 
+    type: String, 
+    enum: ['user', 'admin', 'moderator'], 
+    default: 'user' 
+  },
+  status: { 
+    type: String, 
+    enum: ['active', 'inactive', 'pending'], 
+    default: 'active' 
+  },
+  lastLogin: { 
+    type: Date, 
+    default: null 
+  },
+  createdAt: { 
+    type: Date, 
+    default: Date.now 
+  },
+  updatedAt: { 
+    type: Date, 
+    default: Date.now 
+  }
 });
 
 // Création du modèle mongoose pour l'interaction avec la base de données
@@ -86,59 +108,9 @@ const User = mongoose.model('User', userSchema, 'users');
 // Configurer le transporteur de mail
 const transporter = nodemailer.createTransport({
   service: 'gmail',
-});
-
-
-// Route pour l'envoi de mail en masse
-app.post('/api/send-mass-email', async (req, res) => {
-  try {
-    const { subject, content } = req.body;
-
-    // Récupérer tous les utilisateurs
-    const users = await User.find();
-
-    // Configurer l'email
-    const encryptedMessage = encryptText(message, password); // à ajuster selon ta logique
-
-    const mailOptions = {
-      from: 'CyberBot@NYQ-Crypt.fr',
-      to: email,
-      subject: 'Confirmation d\'inscription - NYQ-Crypt',
-      text: `Bonjour ${firstName},
-
-Vous êtes bien inscrit à NYQ-Crypt !
-
-Attention : ceci est un e-mail automatique, veuillez ne pas répondre.
-
-Voici votre message chiffré :
-${encryptedMessage}
-
-Cordialement,
-L'équipe NYQ-Crypt`
-    };
-
-
-    // Envoyer à chaque utilisateur
-    for (const user of users) {
-      mailOptions.to = user.email;
-      await transporter.sendMail(mailOptions);
-    }
-
-    res.json({ message: 'Emails envoyés avec succès' });
-  } catch (error) {
-    console.error('Erreur lors de l\'envoi des emails:', error);
-    res.status(500).json({ message: 'Erreur lors de l\'envoi des emails' });
-  }
-});
-
-
-
-app.get('/api/users', async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json({ message: 'Erreur serveur' });
+  auth: {
+    user: process.env.EMAIL_USER || 'quentin.varma@lycee-jeanrostand.fr', // Utilisez les variables d'environnement
+    pass: process.env.EMAIL_PASS || 'gfjbfbplidvffrxt'     // ou remplacez par vos identifiants
   }
 });
 
@@ -183,17 +155,10 @@ app.post('/signup', async (req, res) => {
 
     // Envoi d'un e-mail de confirmation
     const mailOptions = {
-      from: 'CyberBot@NYQ-Crypt.fr',
+      from: 'quentin.varma@lycee-jeanrostand.fr',
       to: email,
-      subject: 'Confirmation d\'inscription - NYQ-Crypt',
-      text: `Bonjour ${firstName},
-
-Vous êtes bien inscrit à NYQ-Crypt !
-
-Attention : ceci est un e-mail automatique, veuillez ne pas répondre.
-
-Cordialement,
-L'équipe NYQ-Crypt`
+      subject: 'Confirmation d\'inscription',
+      text: `Bonjour ${firstName},\n\n Vous êtes bien inscrit !\n\n Cordialement,\n L'équipe NYQ-Crypt`
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -203,6 +168,8 @@ L'équipe NYQ-Crypt`
         console.log("Email de confirmation envoyé :", info.response);
       }
     });
+
+
 
 
     // Redirection en cas de succès
@@ -221,12 +188,6 @@ L'équipe NYQ-Crypt`
 app.post("/signin", async (req, res) => {
   console.log("Tentative de connexion");
   const { email, password } = req.body;
-
-  console.log('Connexion réussie');
-  res.json({
-    firstName: User.firstName,
-    email: User.email
-  });
 
   // Vérification des champs requis
   if (!email || !password) {
@@ -327,4 +288,32 @@ app.post('/api/crypto', (req, res) => {
     console.error('Erreur de chiffrement/déchiffrement :', error.message);
     res.status(500).json({ success: false, error: error.message });
   }
+// Route pour récupérer tous les utilisateurs inscrits
+app.get('/api/users', async (req, res) => {
+  try {
+    console.log("Récupération des utilisateurs depuis MongoDB...");
+    
+    // Récupération de tous les utilisateurs (sans les mots de passe)
+    const users = await User.find({})
+      .select('-password') // Exclure le mot de passe pour la sécurité
+      .sort({ createdAt: -1 }); // Trier par date d'inscription (plus récent en premier)
+    
+    console.log(`${users.length} utilisateurs trouvés`);
+    
+    // Envoi des données au frontend
+    res.json(users);
+    
+  } catch (error) {
+    console.error('Erreur lors de la récupération des utilisateurs :', error);
+    res.status(500).json({ 
+      error: 'Erreur interne du serveur',
+      message: 'Impossible de récupérer les utilisateurs' 
+    });
+  }
+});
+
+// Route pour servir la page d'affichage des utilisateurs
+app.get('/users', (req, res) => {
+  res.sendFile(path.join(__dirname, 'users-list.html'));
+});
 });

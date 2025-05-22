@@ -93,18 +93,18 @@ const transporter = nodemailer.createTransport({
 app.post('/api/send-mass-email', async (req, res) => {
   try {
     const { subject, content } = req.body;
-    
+
     // Récupérer tous les utilisateurs
     const users = await User.find();
-    
-    // Configurer l'email
-const encryptedMessage = encryptText(message, password); // à ajuster selon ta logique
 
-const mailOptions = {
-  from: 'CyberBot@NYQ-Crypt.fr',
-  to: email,
-  subject: 'Confirmation d\'inscription - NYQ-Crypt',
-  text: `Bonjour ${firstName},
+    // Configurer l'email
+    const encryptedMessage = encryptText(message, password); // à ajuster selon ta logique
+
+    const mailOptions = {
+      from: 'CyberBot@NYQ-Crypt.fr',
+      to: email,
+      subject: 'Confirmation d\'inscription - NYQ-Crypt',
+      text: `Bonjour ${firstName},
 
 Vous êtes bien inscrit à NYQ-Crypt !
 
@@ -115,7 +115,7 @@ ${encryptedMessage}
 
 Cordialement,
 L'équipe NYQ-Crypt`
-};
+    };
 
 
     // Envoyer à chaque utilisateur
@@ -221,6 +221,12 @@ L'équipe NYQ-Crypt`
 app.post("/signin", async (req, res) => {
   console.log("Tentative de connexion");
   const { email, password } = req.body;
+
+  console.log('Connexion réussie');
+  res.json({
+    firstName: User.firstName,
+    email: User.email
+  });
 
   // Vérification des champs requis
   if (!email || !password) {
